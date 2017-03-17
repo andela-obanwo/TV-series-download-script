@@ -2,16 +2,14 @@
 Script to download TVshows
 
 ## Setup
+#### NB: Starred modules may already by installed or throw errors, Simply move on.
 * Install python 2.7
 * Install the following modules using pip
-  `urllib, 
-  urllib2,
-  bs4,
+  `bs4,
   clint,
   requests,
-  sqlite3,
-  time,
-  os,
+  *time*,
+  *os*,
   fake_useragent`
   
 * Modify the 'name' and 'folderpath' variables to indicate path for file storage
