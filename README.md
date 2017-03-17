@@ -1,7 +1,7 @@
 # TV-series-download-script
 Script to download TVshows
 
-##Setup
+## Setup
 * Install python 2.7
 * Install the following modules using pip
   `urllib, 
@@ -16,7 +16,7 @@ Script to download TVshows
   
 * Modify the 'name' and 'folderpath' variables to indicate path for file storage
 
-##Usage
+## Usage
 * Run 'python tvSeriesScraper.py'
 
 * Type "New" and then enter the name of the show you want to download.
