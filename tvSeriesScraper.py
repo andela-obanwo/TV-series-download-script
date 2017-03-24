@@ -319,7 +319,7 @@ def start_program():
         'Greys Anatomy','How to get away with murder',
         'Heroes Reborn','Mistresses', 'Orange is the new black',
         'Modern family', 'Reign', 'Quantico', 'The flash',
-        'Scandal','Vikings','Jessica Jones', 'Luke Cage']
+        'Scandal','Vikings','Jessica Jones', 'Luke Cage', 'Supergirl']
         for show in sorted(tvshows):
             sname = None
             sname = show.lower()
