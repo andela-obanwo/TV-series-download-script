@@ -22,31 +22,31 @@ def showname():  # USER INPUT: Collect Title
 
 def testif(sname):  # Determine what Page Cluster TV Show resides on o2tvseries.com
     if sname[0] < 'd':
-        print sname[0], sname, 'Group A'
+        print (sname[0], sname, 'Group A')
         pageurl = '/a'
     elif sname[0] >= 'd' and sname[0] < 'g':
-        print sname[0], sname, 'Group D'
+        print(sname[0], sname, 'Group D')
         pageurl = '/d'
     elif sname[0] >= 'g' and sname[0] < 'j':
-        print sname[0], sname, 'Group G'
+        print(sname[0], sname, 'Group G')
         pageurl = '/g'
     elif sname[0] >= 'j' and sname[0] < 'm':
-        print sname[0], sname, 'Group J'
+        print (sname[0], sname, 'Group J')
         pageurl = '/j'
     elif sname[0] >= 'm' and sname[0] < 'p':
-        print sname[0], sname, 'Group M'
+        print (sname[0], sname, 'Group M')
         pageurl = '/m'
     elif sname[0] >= 'p' and sname[0] < 's':
-        print sname[0], sname, 'Group P'
+        print (sname[0], sname, 'Group P')
         pageurl = '/p'
     elif sname[0] >= 's' and sname[0] < 'v':
-        print sname[0], sname, 'Group S'
+        print (sname[0], sname, 'Group S')
         pageurl = '/s'
     elif sname[0] >= 'v' and sname[0] < 'y':
-        print sname[0], sname, 'Group V'
+        print (sname[0], sname, 'Group V')
         pageurl = '/v'
     elif sname[0] >= 'Y':
-        print sname[0], sname, 'Group Y'
+        print (sname[0], sname, 'Group Y')
         pageurl = '/y'
     return pageurl
 
@@ -62,7 +62,7 @@ def openurl(url):
 def get_tags(url):
     html = openurl(url)
     soup = BeautifulSoup(html, 'html.parser')
-    # print html
+    # print (html)
     tags = soup.find_all('a')
     return tags
 
@@ -71,50 +71,50 @@ def id_url():  # Obtain TV Show's Home page url
     global pageno, url, found, folder, statement
     while found == False:
         tags = get_tags(url)
-        # print tags
+        # print (tags)
         for tag in tags:
             try:
-                # print str(tag.string).lower(), type(str(tag.string)), sname[0], type(sname[0])
+                # print (str(tag.string).lower(), type(str(tag.string)), sname[0], type(sname[0]))
                 # for word in sname:
 
                 if sname[0] in str(tag.string).lower():
                     if len(sname) > 1:
-                        print "yes sname is greater than 1"
+                        print ("yes sname is greater than 1")
                         if sname[1] in str(tag.string).lower():
-                            print "yes the second word exists"
+                            print ("yes the second word exists")
                             if len(sname) > 2:
                                 if sname[2] in str(tag.string).lower():
-                                    print tag
+                                    print (tag)
                                     url = tag.get('href')
                                     folder = tag.string
-                                    print cur
+                                    print (cur)
                                     statement = "CREATE TABLE IF NOT EXISTS '%s' (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Season TEXT, Episode TEXT, Filename TEXT, Filesize INTEGER, Download_time DATE)" % (
                                         folder)
-                                    print statement
+                                    print (statement)
                                     cur.execute(statement)
                                     found = True
                                     return url
                                 else:
                                     continue
-                            print tag
+                            print (tag)
                             url = tag.get('href')
                             folder = tag.string
-                            print cur
+                            print (cur)
                             statement = "CREATE TABLE IF NOT EXISTS '%s' (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Season TEXT, Episode TEXT, Filename TEXT, Filesize INTEGER, Download_time DATE)" % (
                                 folder)
-                            print statement
+                            print (statement)
                             cur.execute(statement)
                             found = True
                             return url
                         else:
                             continue
 
-                    print tag
+                    print (tag)
                     url = tag.get('href')
                     folder = tag.string
-                    print cur
+                    print (cur)
                     statement = "CREATE TABLE IF NOT EXISTS '%s' (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Season TEXT, Episode TEXT, Filename TEXT, Filesize INTEGER, Download_time DATE)" % (folder)
-                    print statement
+                    print (statement)
                     cur.execute(statement)
                     found = True
                     return url
@@ -124,12 +124,12 @@ def id_url():  # Obtain TV Show's Home page url
                 continue
         conn.commit()
         pageno += 1
-        # print pageno
+        # print (pageno)
         page = "/page" + str(pageno) + ".html"
         url = urlstatic + page
-        # print url
+        # print (url)
         if pageno == 10:
-            print "Title not available"
+            print ("Title not available")
             break
 
 
@@ -141,7 +141,7 @@ def get_seasons():
 
     for tag in tags:
         if 'season' in str(tag.string).lower():
-            # print tag.get('href')
+            # print (tag.get('href'))
             seasons.append(tag.get('href'))
             title.append(folder)
             season_name.append(tag.string)
@@ -157,50 +157,50 @@ def get_episodes():
     season_name = []
 
     seasons2 = {}
-    print season_names
+    print (season_names)
     for item in range(len(seasons)):
         episodes = []
         episode_name = []
         pages = 1
         tags = get_tags(seasons[item])
-        # print seasons[item]
+        # print (seasons[item])
         while True:
             for tag in tags:
                 try:
                     #strtag = str(tag.string).lower()
-                    # print 'strtag is ', strtag
+                    # print ('strtag is ', strtag)
                     if 'episode' in tag.string.lower():
-                        # print tag.get('href')
+                        # print (tag.get('href'))
                         episodes.append(tag.get('href'))
                         episode_name.append(tag.string)
                         show_name.append(titles[item])
-                        # print season_names
+                        # print (season_names)
                 except:
                     continue
 
             # season_name.append(season_names[item])
             pages += 1
             nxtpage = 'page' + str(pages) + '.html'
-            # print 'nextpage is', nxtpage
+            # print ('nextpage is', nxtpage)
 
             for tag in tags:
-                # print tag
+                # print (tag)
                 if nxtpage in str(tag).lower():
                     tags = get_tags(seasons[item][:-10] + nxtpage)
-                    # print seasons[item][:-10]+ nxtpage
+                    # print (seasons[item][:-10]+ nxtpage)
                     break
                 else:
                     continue
             else:
                 break
-            # print seasons2
+            # print (seasons2)
         episodes2 = {}
         for items in range(len(episodes)):
-            # print episodes[items]
+            # print (episodes[items])
             episodes2[episode_name[items]] = episodes[items]
-            # print episodes[items], episode_name[items]
-            # print 'item is ' , item, season_name[item]
-            # print season_name
+            # print (episodes[items], episode_name[items])
+            # print ('item is ' , item, season_name[item])
+            # print (season_name)
 
         seasons2[season_names[item]] = episodes2
 
@@ -218,12 +218,12 @@ def get_referrer():
     seasons2 = alldata[4]
     episodes = []
 
-    # print season_names
+    # print (season_names)
 
     for season in season_names:
-        # print season, " and ", seasons2[season]
+        # print (season, " and ", seasons2[season])
         for episode, url in seasons2[season].iteritems():
-            # print episode, ' and ', url
+            # print (episode, ' and ', url)
             tags = get_tags(url)
             for tag in tags:
                 if '.mp4' in str(tag.string).lower():
@@ -250,10 +250,10 @@ def rest_of_program(show_name):
     sname = show_name.lower()
     url = source + testif(sname)
     urlstatic = url
-    print url
-    print sname
+    print (url)
+    print (sname)
     sname = sname.split()
-    print sname
+    print (sname)
 
     files = get_referrer()
     filename = files[1]
@@ -269,10 +269,10 @@ def rest_of_program(show_name):
 
     for item in sorted(files):
         if (item[1], item[2]) in dbcheck:
-            print (item[1], item[2]), 'has been downloaded'
+            print ((item[1], item[2]), 'has been downloaded')
         else:
-            print (item[1], item[2]), 'has not been downloaded'
-            # print item[0],item[1],item[2],item[3],item[4],item[5]
+            print ((item[1], item[2]), 'has not been downloaded')
+            # print (item[0],item[1],item[2],item[3],item[4],item[5])
             name = "/Users/simulations/Downloads/TVshows/%s/%s/%s" % (
                 folder, item[1], item[5])
             folderpath = "/Users/simulations/Downloads/TVshows/%s/%s" % (
@@ -287,9 +287,9 @@ def rest_of_program(show_name):
             #total_length = int(r.headers.get('content-length'))
             path = name
             with open(path, 'wb') as f:
-                # print item[4]
+                # print (item[4])
                 total_length = int(r.headers.get('content-length'))
-                print item[5]
+                print (item[5])
                 for chunk in progress.bar(r.iter_content(chunk_size=1024), expected_size=(total_length / 1024) + 1):
                     if chunk:
                         f.write(chunk)
@@ -303,11 +303,15 @@ def rest_of_program(show_name):
 
 def start_program():
     global sname, source, pageno, found, folder, statement
-    if sys.argv[1].lower() not in  ['update', 'new']:
+    try:
+        if sys.argv[1].lower() not in  ['update', 'new']:
+            actionact = raw_input(
+                "Download New Show or Update Current Show Repertoire? Enter 'New' or 'Update'").lower()
+        else:
+            actionact = sys.argv[1].lower()
+    except:
         actionact = raw_input(
-            "Download New Show or Update Current Show Repertoire? Enter 'New' or 'Update'").lower()
-    else:
-        actionact = sys.argv[1].lower()
+                "Download New Show or Update Current Show Repertoire? Enter 'New' or 'Update'").lower()
     if actionact == 'new':
         sname = None
         showname()
@@ -328,7 +332,7 @@ def start_program():
             'Greys Anatomy', 'How to get away with murder',
             'Heroes Reborn', 'Mistresses', 'Orange is the new black',
             'Modern family', 'Reign', 'Quantico', 'The flash',
-            'Scandal', 'Vikings', 'Jessica Jones', 'Luke Cage', 'Supergirl']
+            'Scandal', 'Vikings', 'Jessica Jones', 'Luke Cage', 'Hawaii', 'Supergirl']
         for show in sorted(tvshows):
             sname = None
             sname = show.lower()
@@ -342,7 +346,7 @@ def start_program():
             rest_of_program(sname)
 
     else:
-        print "Invalid Entry, Please Thy Again"
+        print ("Invalid Entry, Please Thy Again")
         start_program()
 
 

@@ -4,15 +4,14 @@ Script to download TVshows
 ## Setup
 #### NB: Starred modules may already by installed or throw errors, Simply move on.
 * Install python 2.7
-* Install the following modules using pip
-  `bs4,
-  clint,
-  requests,
-  *time*,
-  *os*,
-  fake_useragent`
+* Install the following modules using pip. Run:
+  `pip install bs4 clint requests fake_useragent`
   
+* Edit the file tvSeriesScraper.py
 * Modify the 'name' and 'folderpath' variables to indicate path for file storage
+
+* Also modify the list of Shows to your liking (with names as found on on o2tvseries.com)
+
 
 ## Usage
 * Run 'python tvSeriesScraper.py'
